@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Card</title>
+
+    <style>
+      /* Remove default spacing */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Body styling */
+      body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Center horizontally and vertically */
+      .container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      /* Profile Card */
+      .profile-card {
+        width: 350px;
+        background-color: black;
+        color: white;
+        border: 3px solid yellow;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+
+        transition: all 0.4s ease;
+      }
+
+      /* Profile Image */
+      .profile-card img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 3px solid yellow;
+        margin-bottom: 15px;
+        object-fit: cover;
+      }
+
+      /* Heading */
+      .profile-card h2 {
+        margin-bottom: 10px;
+      }
+
+      /* Designation */
+      .profile-card h4 {
+        color: yellow;
+        margin-bottom: 15px;
+      }
+
+      /* Description */
+      .profile-card p {
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      /* Button */
+      .profile-card button {
+        background-color: yellow;
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      /* Button Hover */
+      .profile-card button:hover {
+        background-color: white;
+      }
+
+      /* Card Hover Animation */
+      .profile-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 480px) {
+        .profile-card {
+          width: 100%;
+          max-width: 350px;
+          padding: 25px;
+        }
+
+        .profile-card img {
+          width: 100px;
+          height: 100px;
+        }
+
+        .profile-card h2 {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="profile-card">
+        <img src="https://i.pravatar.cc/150?img=12" alt="Profile Image" />
+
+        <h2>Sarbjeet Singh</h2>
+
+        <h4>Android Developer</h4>
+
+        <p>
+          I am a passionate developer interested in building modern and
+          responsive applications.
+        </p>
+
+        <button>Contact Me</button>
+      </div>
+    </div>
+  </body>
+</html>
