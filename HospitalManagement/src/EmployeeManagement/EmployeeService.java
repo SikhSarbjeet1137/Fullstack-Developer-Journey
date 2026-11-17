@@ -50,4 +50,16 @@ public class EmployeeService {
 
     System.out.println("Employee Not Found!");
 }
+public void removeEmployee(int id) {
+
+    boolean removed = employees.removeIf(
+        employee -> employee.getId() == id
+    );
+
+    if (removed) {
+        System.out.println("Employee Removed Successfully!");
+    } else {
+        System.out.println("Employee Not Found!");
+    }
+}
 }

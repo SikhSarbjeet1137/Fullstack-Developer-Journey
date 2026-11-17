@@ -32,6 +32,13 @@ service.addEmployee(dev2);
             // Search Employee
             System.out.println("\n--- Search Employee ---");
             service.searchEmployee(101);
+            System.out.println("\n--- Remove Employee ---");
+
+service.removeEmployee(101);
+
+System.out.println("\n--- Updated Employee List ---");
+
+service.displayEmployees();
 
         } catch (InvalidSalaryException e) {
 
