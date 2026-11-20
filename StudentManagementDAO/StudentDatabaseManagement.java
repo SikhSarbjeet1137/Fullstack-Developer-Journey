@@ -1,6 +1,10 @@
 
-import dao.StudentDAO;
+import dao.StudentDAOImpl;
 import model.Student;
+import service.StudentService;
+
+import exception.DuplicateStudentException;
+import exception.StudentNotFoundException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,11 +13,14 @@ import java.util.Scanner;
 public class StudentDatabaseManagement {
 
     private static final Scanner sc = new Scanner(System.in);
-    private static final StudentDAO studentDAO = new StudentDAO();
+
+    // Dependency Injection
+    private static final StudentService studentService =
+            new StudentService(new StudentDAOImpl());
 
     public static void main(String[] args) {
 
-        int choice=0;
+        int choice = 0;
 
         do {
             System.out.println("\n===== STUDENT MANAGEMENT SYSTEM =====");
@@ -65,7 +72,17 @@ public class StudentDatabaseManagement {
                         System.out.println("Invalid choice!");
                 }
 
+            } catch (DuplicateStudentException |
+                     StudentNotFoundException e) {
+
+                System.out.println("Application Error: " + e.getMessage());
+
+            } catch (IllegalArgumentException e) {
+
+                System.out.println("Validation Error: " + e.getMessage());
+
             } catch (SQLException e) {
+
                 System.out.println("Database Error: " + e.getMessage());
             }
 
@@ -90,7 +107,7 @@ public class StudentDatabaseManagement {
 
         Student student = new Student(0, name, email, age);
 
-        boolean result = studentDAO.addStudent(student);
+        boolean result = studentService.addStudent(student);
 
         if (result) {
             System.out.println("Student added successfully!");
@@ -102,7 +119,7 @@ public class StudentDatabaseManagement {
     // 2. View All Students
     private static void viewAllStudents() throws SQLException {
 
-        List<Student> students = studentDAO.getAllStudents();
+        List<Student> students = studentService.getAllStudents();
 
         if (students.isEmpty()) {
             System.out.println("No students found!");
@@ -132,19 +149,13 @@ public class StudentDatabaseManagement {
         System.out.print("Enter Student ID: ");
         int id = sc.nextInt();
 
-        Student student = studentDAO.searchStudentById(id);
+        Student student = studentService.searchStudentById(id);
 
-        if (student != null) {
-
-            System.out.println("\nStudent Found!");
-            System.out.println("ID    : " + student.getId());
-            System.out.println("Name  : " + student.getName());
-            System.out.println("Email : " + student.getEmail());
-            System.out.println("Age   : " + student.getAge());
-
-        } else {
-            System.out.println("Student not found!");
-        }
+        System.out.println("\nStudent Found!");
+        System.out.println("ID    : " + student.getId());
+        System.out.println("Name  : " + student.getName());
+        System.out.println("Email : " + student.getEmail());
+        System.out.println("Age   : " + student.getAge());
     }
 
     // 4. Update Student
@@ -152,13 +163,6 @@ public class StudentDatabaseManagement {
 
         System.out.print("Enter Student ID to update: ");
         int id = sc.nextInt();
-
-        Student existingStudent = studentDAO.searchStudentById(id);
-
-        if (existingStudent == null) {
-            System.out.println("Student not found!");
-            return;
-        }
 
         sc.nextLine();
 
@@ -173,7 +177,7 @@ public class StudentDatabaseManagement {
 
         Student student = new Student(id, name, email, age);
 
-        boolean result = studentDAO.updateStudent(student);
+        boolean result = studentService.updateStudent(student);
 
         if (result) {
             System.out.println("Student updated successfully!");
@@ -188,12 +192,7 @@ public class StudentDatabaseManagement {
         System.out.print("Enter Student ID to delete: ");
         int id = sc.nextInt();
 
-        Student existingStudent = studentDAO.searchStudentById(id);
-
-        if (existingStudent == null) {
-            System.out.println("Student not found!");
-            return;
-        }
+        Student existingStudent = studentService.searchStudentById(id);
 
         System.out.println("Student Name: " + existingStudent.getName());
 
@@ -202,7 +201,7 @@ public class StudentDatabaseManagement {
 
         if (confirm == 1) {
 
-            boolean result = studentDAO.deleteStudent(id);
+            boolean result = studentService.deleteStudent(id);
 
             if (result) {
                 System.out.println("Student deleted successfully!");
